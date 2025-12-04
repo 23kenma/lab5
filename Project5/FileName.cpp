@@ -1,42 +1,27 @@
-#include <iostream>
 #include <cmath>
-
+#include <iostream>
 using namespace std;
-
 int main() {
     int n, m;
-    cout << "vvedite kollichestvo N: ";
+    cout << "vvedite kolvo strok and stolbtsov" << endl;
+    cout << " N: ";
     cin >> n;
-    cout << "vvedite kollichestvo M: ";
+    cout << endl;
+    cout << " M: ";
     cin >> m;
-    if (n <= 1 || m <= 1) {
-        cout << "minimum 2x2!" << endl;
-        return 1;
-    }
-    double** matrix = new double* [n];
-    for (int i = 0; i < n; i++) {
-        matrix[i] = new double[m];
-    }
-    cout << "vvedite elements:" << endl;
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            cout << "matrix[" << i << "][" << j << "] = ";
-            cin >> matrix[i][j];
-        }
-    }
-    cout << "\nishodnaya " << n << "x" << m << ":" << endl;
+    int** mtrx = new int* [n];
+    for (int i = 0; i < n; i++)
+        mtrx[i] = new int[m];
+    cout << "vvedite elements matritsi: \n";
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+            cin >> mtrx[i][j];
+    double maxAbsValue = fabs(mtrx[0][0]);
+    int maxRow = 0;
+    int maxCol = 0;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
-            cout << matrix[i][j] << "\t";
-        }
-        cout << endl;
-    }
-    int maxRow = 0, maxCol = 0;
-    double maxAbsValue = fabs(matrix[0][0]);
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < m; j++) {
-            double currentAbs = fabs(matrix[i][j]);
+            double currentAbs = fabs(mtrx[i][j]);
             if (currentAbs > maxAbsValue) {
                 maxAbsValue = currentAbs;
                 maxRow = i;
@@ -48,36 +33,26 @@ int main() {
     for (int i = 0; i < n - 1; i++) {
         newMatrix[i] = new double[m - 1];
     }
-    int newI = 0;
+    int newRow = 0;
     for (int i = 0; i < n; i++) {
-        if (i == maxRow) continue;
-
-        int newJ = 0;
+        if (i == maxRow) continue; 
+        int newCol = 0;
         for (int j = 0; j < m; j++) {
-            if (j == maxCol) continue;
-
-            newMatrix[newI][newJ] = matrix[i][j];
-            newJ++;
+            if (j == maxCol) continue; 
+            newMatrix[newRow][newCol] = mtrx[i][j];
+            newCol++;
         }
-        newI++;
+        newRow++;
     }
-    cout << "\nnovaya mat " << (n - 1) << "x" << (m - 1) << ":" << endl;
+    cout << "\nnewmatrix " << (n - 1) << "x" << (m - 1) << ":" << endl;
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < m - 1; j++) {
-            cout << newMatrix[i][j] << "\t";
+            cout << newMatrix[i][j] << " ";
         }
         cout << endl;
     }
-
-    for (int i = 0; i < n; i++) {
-        delete[] matrix[i];
-    }
-    delete[] matrix;
-
-    for (int i = 0; i < n - 1; i++) {
-        delete[] newMatrix[i];
-    }
-    delete[] newMatrix;
-
+    for (int i = 0; i < n; i++)
+        delete[] mtrx[i];
+    delete[] mtrx;
     return 0;
 }
